@@ -1,0 +1,286 @@
+{
+  "info": {
+    "name": "NexusChat API",
+    "description": "REST API collection for NexusChat. Run 'Login' first — it auto-saves accessToken to the collection variable used by every other request.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api/v1" },
+    { "key": "accessToken", "value": "" },
+    { "key": "userId", "value": "" },
+    { "key": "conversationId", "value": "" },
+    { "key": "messageId", "value": "" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123\",\n  \"confirmPassword\": \"Password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/verify-email",
+            "body": { "mode": "raw", "raw": "{\n  \"token\": \"PASTE_TOKEN_FROM_EMAIL\"\n}" }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json().data;",
+                  "if (data && data.accessToken) {",
+                  "  pm.collectionVariables.set('accessToken', data.accessToken);",
+                  "  pm.collectionVariables.set('userId', data.user._id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailOrUsername\": \"john@example.com\",\n  \"password\": \"Password123\",\n  \"rememberMe\": true\n}"
+            }
+          }
+        },
+        { "name": "Refresh Token", "request": { "method": "POST", "url": "{{baseUrl}}/auth/refresh" } },
+        { "name": "Logout", "request": { "method": "POST", "url": "{{baseUrl}}/auth/logout" } },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/forgot-password",
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"john@example.com\"\n}" }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/reset-password",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"PASTE_RESET_TOKEN\",\n  \"password\": \"NewPassword123\",\n  \"confirmPassword\": \"NewPassword123\"\n}"
+            }
+          }
+        },
+        { "name": "Get Current User (/me)", "request": { "method": "GET", "url": "{{baseUrl}}/auth/me" } },
+        { "name": "Google OAuth (browser only)", "request": { "method": "GET", "url": "{{baseUrl}}/auth/google" } }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        { "name": "Search Users", "request": { "method": "GET", "url": "{{baseUrl}}/users/search?q=alice&onlineOnly=true" } },
+        { "name": "Online Users", "request": { "method": "GET", "url": "{{baseUrl}}/users/online" } },
+        { "name": "Recently Joined", "request": { "method": "GET", "url": "{{baseUrl}}/users/recent" } },
+        { "name": "Get User By ID", "request": { "method": "GET", "url": "{{baseUrl}}/users/{{userId}}" } },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/users/me",
+            "body": { "mode": "raw", "raw": "{\n  \"bio\": \"Hello world\",\n  \"country\": \"Canada\"\n}" }
+          }
+        },
+        {
+          "name": "Update My Status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/users/me/status",
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"away\"\n}" }
+          }
+        },
+        {
+          "name": "Upload Avatar",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/users/me/avatar",
+            "body": { "mode": "formdata", "formdata": [{ "key": "avatar", "type": "file", "src": [] }] }
+          }
+        },
+        { "name": "Block User", "request": { "method": "POST", "url": "{{baseUrl}}/users/{{userId}}/block" } },
+        { "name": "Delete My Account", "request": { "method": "DELETE", "url": "{{baseUrl}}/users/me" } }
+      ]
+    },
+    {
+      "name": "Conversations & Messages",
+      "item": [
+        { "name": "List My Conversations", "request": { "method": "GET", "url": "{{baseUrl}}/conversations" } },
+        {
+          "name": "Start Private Conversation",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "exec": ["const d = pm.response.json().data; if (d) pm.collectionVariables.set('conversationId', d._id);"] }
+            }
+          ],
+          "request": { "method": "POST", "url": "{{baseUrl}}/conversations/private/{{userId}}" }
+        },
+        {
+          "name": "Create Group",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/conversations/groups",
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Weekend Trip\",\n  \"memberIds\": [\"{{userId}}\"]\n}" }
+          }
+        },
+        {
+          "name": "Create Room",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/conversations/rooms",
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Tech Talk\",\n  \"category\": \"technology\",\n  \"isPublic\": true\n}" }
+          }
+        },
+        { "name": "List Public Rooms", "request": { "method": "GET", "url": "{{baseUrl}}/conversations/rooms?category=technology" } },
+        { "name": "Join Room", "request": { "method": "POST", "url": "{{baseUrl}}/conversations/rooms/{{conversationId}}/join" } },
+        { "name": "Get Messages", "request": { "method": "GET", "url": "{{baseUrl}}/conversations/{{conversationId}}/messages?limit=30" } },
+        {
+          "name": "Send Message",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "exec": ["const d = pm.response.json().data; if (d) pm.collectionVariables.set('messageId', d._id);"] }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/conversations/{{conversationId}}/messages",
+            "body": { "mode": "raw", "raw": "{\n  \"content\": \"Hello there!\"\n}" }
+          }
+        },
+        {
+          "name": "Send Attachment",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/conversations/{{conversationId}}/messages/attachment",
+            "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": [] }] }
+          }
+        },
+        {
+          "name": "Edit Message",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/messages/{{messageId}}",
+            "body": { "mode": "raw", "raw": "{\n  \"content\": \"Edited message\"\n}" }
+          }
+        },
+        { "name": "Delete Message", "request": { "method": "DELETE", "url": "{{baseUrl}}/messages/{{messageId}}?forEveryone=false" } },
+        {
+          "name": "React to Message",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/messages/{{messageId}}/react",
+            "body": { "mode": "raw", "raw": "{\n  \"emoji\": \"\\ud83d\\udc4d\"\n}" }
+          }
+        },
+        { "name": "Pin/Unpin Message", "request": { "method": "POST", "url": "{{baseUrl}}/messages/{{messageId}}/pin" } },
+        { "name": "Search Messages", "request": { "method": "GET", "url": "{{baseUrl}}/conversations/search-messages?q=hello" } }
+      ]
+    },
+    {
+      "name": "Friends",
+      "item": [
+        { "name": "List Friends", "request": { "method": "GET", "url": "{{baseUrl}}/friends" } },
+        { "name": "List Pending Requests", "request": { "method": "GET", "url": "{{baseUrl}}/friends/requests" } },
+        { "name": "Send Friend Request", "request": { "method": "POST", "url": "{{baseUrl}}/friends/requests/{{userId}}" } },
+        { "name": "Accept Friend Request", "request": { "method": "POST", "url": "{{baseUrl}}/friends/requests/REQUEST_ID/accept" } },
+        { "name": "Reject Friend Request", "request": { "method": "POST", "url": "{{baseUrl}}/friends/requests/REQUEST_ID/reject" } },
+        { "name": "Remove Friend", "request": { "method": "DELETE", "url": "{{baseUrl}}/friends/{{userId}}" } }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        { "name": "List Notifications", "request": { "method": "GET", "url": "{{baseUrl}}/notifications" } },
+        { "name": "Mark Read", "request": { "method": "PATCH", "url": "{{baseUrl}}/notifications/NOTIFICATION_ID/read" } },
+        { "name": "Mark All Read", "request": { "method": "PATCH", "url": "{{baseUrl}}/notifications/read-all" } }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        { "name": "Global Search", "request": { "method": "GET", "url": "{{baseUrl}}/search?q=alice" } },
+        { "name": "Search Rooms", "request": { "method": "GET", "url": "{{baseUrl}}/search/rooms?q=tech" } },
+        { "name": "Search Groups", "request": { "method": "GET", "url": "{{baseUrl}}/search/groups?q=trip" } }
+      ]
+    },
+    {
+      "name": "Settings",
+      "item": [
+        { "name": "Setup 2FA", "request": { "method": "POST", "url": "{{baseUrl}}/settings/2fa/setup" } },
+        {
+          "name": "Confirm 2FA",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/settings/2fa/confirm",
+            "body": { "mode": "raw", "raw": "{\n  \"code\": \"123456\"\n}" }
+          }
+        },
+        { "name": "Get Blocked Users", "request": { "method": "GET", "url": "{{baseUrl}}/settings/blocked-users" } }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        { "name": "Dashboard Stats", "request": { "method": "GET", "url": "{{baseUrl}}/admin/dashboard" } },
+        { "name": "List Users", "request": { "method": "GET", "url": "{{baseUrl}}/admin/users" } },
+        {
+          "name": "Ban User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/admin/users/{{userId}}/ban",
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Spam\"\n}" }
+          }
+        },
+        { "name": "List Reports", "request": { "method": "GET", "url": "{{baseUrl}}/admin/reports" } },
+        { "name": "List Blocked Words", "request": { "method": "GET", "url": "{{baseUrl}}/admin/blocked-words" } },
+        {
+          "name": "Add Blocked Word",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/admin/blocked-words",
+            "body": { "mode": "raw", "raw": "{\n  \"word\": \"badword\"\n}" }
+          }
+        },
+        { "name": "Audit Logs", "request": { "method": "GET", "url": "{{baseUrl}}/admin/audit-logs" } }
+      ]
+    }
+  ]
+}

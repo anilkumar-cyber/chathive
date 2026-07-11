@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-surface-dark dark:text-gray-100 transition-colors duration-200;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-surface-dark;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/70 dark:bg-surface-darkAlt/60 backdrop-blur-xl border border-white/20 dark:border-white/5;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-brand-500 to-accent-500 text-white font-medium shadow-glow hover:brightness-110 active:brightness-95 transition disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition select-none;
+  }
+
+  .input-base {
+    @apply w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-darkAlt px-4 py-2.5 text-sm placeholder:text-gray-400 focus:border-brand-500 dark:focus:border-brand-400 outline-none transition;
+  }
+
+  .card {
+    @apply rounded-2xl border border-gray-100 dark:border-white/5 bg-white dark:bg-surface-darkAlt shadow-sm;
+  }
+}

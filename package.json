@@ -1,0 +1,28 @@
+{
+  "name": "nexuschat",
+  "private": true,
+  "version": "1.0.0",
+  "description": "NexusChat - real-time chat platform",
+  "workspaces": [
+    "packages/shared",
+    "packages/server",
+    "packages/client"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=packages/server & npm run dev --workspace=packages/client",
+    "dev:server": "npm run dev --workspace=packages/server",
+    "dev:client": "npm run dev --workspace=packages/client",
+    "build": "npm run build --workspace=packages/shared && npm run build --workspace=packages/server && npm run build --workspace=packages/client",
+    "build:server": "npm run build --workspace=packages/shared && npm run build --workspace=packages/server",
+    "build:client": "npm run build --workspace=packages/shared && npm run build --workspace=packages/client",
+    "test": "npm run test --workspace=packages/server",
+    "lint": "npm run lint --workspace=packages/server && npm run lint --workspace=packages/client",
+    "seed": "npm run seed --workspace=packages/server"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

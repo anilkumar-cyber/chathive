@@ -1,0 +1,15 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+*.log
+coverage/
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/extensions.json
+*.tsbuildinfo
+uploads/
+.turbo/
+.claude/

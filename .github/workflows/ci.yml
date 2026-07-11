@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  shared:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=packages/shared
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shared-dist
+          path: packages/shared/dist
+
+  server:
+    needs: shared
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=packages/shared
+      - name: Lint
+        run: npm run lint --workspace=packages/server
+      - name: Typecheck & build
+        run: npm run build --workspace=packages/server
+      - name: Test
+        run: npm run test --workspace=packages/server
+
+  client:
+    needs: shared
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=packages/shared
+      - name: Lint
+        run: npm run lint --workspace=packages/client
+      - name: Typecheck & build
+        run: npm run build --workspace=packages/client
+        env:
+          VITE_API_URL: /api/v1
+          VITE_SOCKET_URL: /
+
+  docker:
+    needs: [server, client]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build server image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: packages/server/Dockerfile
+          push: false
+          tags: nexuschat-server:ci
+      - name: Build client image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: packages/client/Dockerfile
+          push: false
+          tags: nexuschat-client:ci
