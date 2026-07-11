@@ -28,7 +28,7 @@ export async function sendEmail(to: string, subject: string, html: string): Prom
 
 export function verificationEmailTemplate(username: string, link: string): string {
   return `<div style="font-family:sans-serif;max-width:480px;margin:auto">
-    <h2>Welcome to NexusChat, ${username}!</h2>
+    <h2>Welcome to ChatiHive, ${username}!</h2>
     <p>Please verify your email address to activate your account.</p>
     <a href="${link}" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-radius:8px;text-decoration:none">Verify Email</a>
     <p style="color:#888;font-size:12px;margin-top:24px">If you didn't create this account, ignore this email. Link expires in 24 hours.</p>

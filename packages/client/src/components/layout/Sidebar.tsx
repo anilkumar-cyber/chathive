@@ -50,7 +50,7 @@ export function Sidebar() {
     <aside className="glass flex h-screen w-[76px] flex-col items-center justify-between border-r py-5 md:w-20">
       <div className="flex flex-col items-center gap-6">
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-accent-500 font-bold text-white shadow-glow">
-          N
+          C
         </div>
 
         <nav className="flex flex-col items-center gap-2">

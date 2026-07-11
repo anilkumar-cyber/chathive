@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg"],
       manifest: {
-        name: "NexusChat",
-        short_name: "NexusChat",
+        name: "ChatiHive",
+        short_name: "ChatiHive",
         description: "Modern real-time chat platform",
         theme_color: "#6366f1",
         background_color: "#0f0f17",

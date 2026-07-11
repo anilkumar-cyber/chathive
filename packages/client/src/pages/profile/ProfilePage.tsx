@@ -142,7 +142,7 @@ export function ProfilePage() {
 
         <h1 className="mt-3 text-xl font-bold">{profile.username}</h1>
         <p className="text-sm text-gray-400">
-          {profile.profession ?? "NexusChat member"} {profile.country && `· ${profile.country}`}
+          {profile.profession ?? "ChatiHive member"} {profile.country && `· ${profile.country}`}
         </p>
 
         {!isEditing && (

@@ -1,4 +1,4 @@
-# NexusChat
+# ChatiHive
 
 A modern, real-time chat platform — private/group messaging, public topic rooms, friends, notifications, and more. Built as a production-oriented monorepo with a strong security and testing baseline. Voice/video calling, Stories, and the full admin dashboard UI are intentionally scoped as **Phase 2** (see [Roadmap](#roadmap)); everything else below is implemented and working.
 
@@ -35,7 +35,7 @@ npm run seed --workspace=packages/server   # optional demo data (see below)
 npm run dev                      # runs server (:5000) + client (:5173) concurrently
 ```
 
-Demo login after seeding: `alice@nexuschat.app` / `Password123` (same password for `bob`, `carol`, `dave`; `admin@nexuschat.app` is role `admin`).
+Demo login after seeding: `alice@chatihive.app` / `Password123` (same password for `bob`, `carol`, `dave`; `admin@chatihive.app` is role `admin`).
 
 Swagger docs: `http://localhost:5000/api-docs`
 

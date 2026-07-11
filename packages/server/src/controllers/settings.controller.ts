@@ -28,7 +28,7 @@ export const setup2FA = catchAsync(async (req: Request, res: Response) => {
   user.twoFactorEnabled = false;
   await user.save();
 
-  const otpauthUrl = authenticator.keyuri(user.email as string, "NexusChat", secret);
+  const otpauthUrl = authenticator.keyuri(user.email as string, "ChatiHive", secret);
   const qrCodeDataUrl = await QRCode.toDataURL(otpauthUrl);
 
   sendSuccess(res, 200, { secret, qrCodeDataUrl }, "Scan the QR code with your authenticator app, then confirm with a code.");

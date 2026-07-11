@@ -15,9 +15,9 @@ export function AuthLayout() {
       >
         <div className="mb-6 flex items-center justify-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 text-lg font-bold text-white">
-            N
+            C
           </div>
-          <span className="text-xl font-bold tracking-tight">NexusChat</span>
+          <span className="text-xl font-bold tracking-tight">ChatiHive</span>
         </div>
         <Outlet />
       </motion.div>

@@ -5,7 +5,7 @@ export const swaggerSpec = swaggerJsdoc({
   definition: {
     openapi: "3.0.3",
     info: {
-      title: "NexusChat API",
+      title: "ChatiHive API",
       version: "1.0.0",
       description: "Real-time chat platform REST API documentation.",
     },

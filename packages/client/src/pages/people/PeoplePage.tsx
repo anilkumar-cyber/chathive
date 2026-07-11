@@ -46,7 +46,7 @@ export function PeoplePage() {
     <div className="mx-auto w-full max-w-3xl overflow-y-auto p-6">
       <h1 className="mb-1 text-2xl font-bold">People</h1>
       <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-        Everyone on NexusChat. Tap Message to start a direct conversation.
+        Everyone on ChatiHive. Tap Message to start a direct conversation.
       </p>
 
       <div className="mb-3 flex flex-wrap gap-2">

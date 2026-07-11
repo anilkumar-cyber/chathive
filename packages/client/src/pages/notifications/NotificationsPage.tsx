@@ -62,7 +62,7 @@ export function NotificationsPage() {
                 <Avatar src={sender?.avatar} name={sender?.username} size="sm" />
                 <div className="flex-1">
                   <p className="text-sm">
-                    <span className="font-semibold">{sender?.username ?? "NexusChat"}</span> {n.content}
+                    <span className="font-semibold">{sender?.username ?? "ChatiHive"}</span> {n.content}
                   </p>
                   <p className="text-xs text-gray-400">{formatDistanceToNowStrict(new Date(n.createdAt), { addSuffix: true })}</p>
                 </div>

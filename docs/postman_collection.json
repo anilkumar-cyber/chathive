@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "NexusChat API",
-    "description": "REST API collection for NexusChat. Run 'Login' first — it auto-saves accessToken to the collection variable used by every other request.",
+    "name": "ChatiHive API",
+    "description": "REST API collection for ChatiHive. Run 'Login' first — it auto-saves accessToken to the collection variable used by every other request.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [

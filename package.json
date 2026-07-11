@@ -2,7 +2,7 @@
   "name": "nexuschat",
   "private": true,
   "version": "1.0.0",
-  "description": "NexusChat - real-time chat platform",
+  "description": "ChatiHive - real-time chat platform",
   "workspaces": [
     "packages/shared",
     "packages/server",

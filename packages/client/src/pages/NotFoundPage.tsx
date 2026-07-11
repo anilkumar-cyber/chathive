@@ -7,7 +7,7 @@ export function NotFoundPage() {
       <h1 className="bg-gradient-to-br from-brand-500 to-accent-500 bg-clip-text text-7xl font-black text-transparent">404</h1>
       <p className="text-gray-500 dark:text-gray-400">This page drifted off into the void.</p>
       <Link to="/people">
-        <Button>Back to NexusChat</Button>
+        <Button>Back to ChatiHive</Button>
       </Link>
     </div>
   );

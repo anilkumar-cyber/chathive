@@ -96,7 +96,7 @@ export async function registerUser(username: string, email: string, password: st
   await user.save();
 
   const verifyLink = `${env.CLIENT_URL}/verify-email?token=${raw}`;
-  await sendEmail(user.email as string, "Verify your NexusChat account", verificationEmailTemplate(user.username, verifyLink));
+  await sendEmail(user.email as string, "Verify your ChatiHive account", verificationEmailTemplate(user.username, verifyLink));
 
   return user;
 }
@@ -179,7 +179,7 @@ export async function requestPasswordReset(email: string): Promise<void> {
   await user.save();
 
   const resetLink = `${env.CLIENT_URL}/reset-password?token=${raw}`;
-  await sendEmail(user.email as string, "Reset your NexusChat password", resetPasswordEmailTemplate(user.username, resetLink));
+  await sendEmail(user.email as string, "Reset your ChatiHive password", resetPasswordEmailTemplate(user.username, resetLink));
 }
 
 export async function resetPassword(rawToken: string, newPassword: string): Promise<void> {

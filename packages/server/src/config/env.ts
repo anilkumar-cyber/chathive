@@ -22,7 +22,7 @@ const envSchema = z.object({
   SMTP_PORT: z.coerce.number().optional(),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  EMAIL_FROM: z.string().default("NexusChat <no-reply@nexuschat.app>"),
+  EMAIL_FROM: z.string().default("ChatiHive <no-reply@chatihive.app>"),
 
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),

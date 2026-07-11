@@ -20,7 +20,7 @@ export async function createNotification(params: {
   const recipientUser = await User.findById(params.recipient).select("fcmTokens");
   if (recipientUser?.fcmTokens?.length) {
     await sendPushNotification(recipientUser.fcmTokens, {
-      title: "NexusChat",
+      title: "ChatiHive",
       body: params.content,
       data: { type: params.type, link: params.link ?? "" },
     });

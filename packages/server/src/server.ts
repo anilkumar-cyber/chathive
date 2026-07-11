@@ -14,7 +14,7 @@ async function bootstrap(): Promise<void> {
   await initSocketIO(httpServer);
 
   httpServer.listen(env.SERVER_PORT, () => {
-    logger.info(`NexusChat API listening on port ${env.SERVER_PORT} [${env.NODE_ENV}]`);
+    logger.info(`ChatiHive API listening on port ${env.SERVER_PORT} [${env.NODE_ENV}]`);
     logger.info(`Swagger docs: http://localhost:${env.SERVER_PORT}/api-docs`);
   });
 
